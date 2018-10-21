@@ -16,13 +16,35 @@ OneWire oneWire(ONE_WIRE_BUS);
 DallasTemperature sensors(&oneWire);
 
 File myFile;
-
+String fileName="";
 
 void setup() {
     Serial.begin(115200);
+    Serial.println("");
     sensors.begin();//DS18b20
     Rtc.Begin();
-    Rtc.SetSquareWavePin(DS1307SquareWaveOut_Low);
+    Rtc.SetSquareWavePin(DS1307SquareWaveOut_High);
+
+    if (!Rtc.GetIsRunning()){
+        Serial.println("RTC was not actively running, starting now");
+        Rtc.SetIsRunning(true);
+    }
+
+    if (!Rtc.IsDateTimeValid()) 
+    {
+        // Common Cuases:
+        //    1) the battery on the device is low or even missing and the power line was disconnected
+        Serial.println("RTC lost confidence in the DateTime!");
+    }else {
+        RtcDateTime now = Rtc.GetDateTime();
+        Serial.println("");
+        printDateTime(now);
+    
+        fileName=currentFileName(now);
+        Serial.print("fileName=");
+        Serial.println(fileName);
+     }
+
 
     Serial.print("Initializing SD card...");
     if (!SD.begin(SS)) {
@@ -43,6 +65,8 @@ if (!Rtc.IsDateTimeValid())
   RtcDateTime now = Rtc.GetDateTime();
   printDateTime(now);
 
+  
+
   sensors.requestTemperatures(); // Send the command to get temperatures
   Serial.print(" ");
   Serial.print(sensors.getTempCByIndex(0));
@@ -62,8 +86,8 @@ if (!Rtc.IsDateTimeValid())
   //Serial.println(dataString);
 
   
-
-  myFile = SD.open("datalog.txt", FILE_WRITE);
+  Serial.println(fileName);
+  myFile = SD.open(fileName, FILE_WRITE);
   if (myFile) {
     myFile.println(dataString);
     myFile.close();
@@ -72,7 +96,8 @@ if (!Rtc.IsDateTimeValid())
   }
   // if the file isn't open, pop up an error:
   else {
-    Serial.println("error opening datalog.txt");
+    Serial.print("error opening ");
+    Serial.println(fileName);
   }
   
 
@@ -114,7 +139,18 @@ String stringDateTime(const RtcDateTime& dt)
     return datestring;
 }
 
+String currentFileName(const RtcDateTime& dt)
+{
+    char fileName[14];
 
+    snprintf_P(fileName, 
+            countof(fileName),
+            PSTR("%04u%02u%02u.log"),
+            dt.Year(),
+            dt.Month(),
+            dt.Day());
+    return fileName;
+}
 
 
 
