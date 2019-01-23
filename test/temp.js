@@ -77,8 +77,21 @@ function loadLogsList() {
 function parseLogList(string) {
     var array = [];
     //var lines = string.split("\n");
-    var parser = new DOMParser();
-    var htmlDoc = parser.parseFromString(string, 'text/html');
+    
+    
+        var regex1 = new RegExp('[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9].log','g');
+    
+    while ((array = regex1.exec(string)) !== null) {
+        //while ((array.push(regex1.exec(string))) !== null) {
+  console.log(`Found ${array[0]}. Next starts at ${regex1.lastIndex}.`);
+  // expected output: "Found foo. Next starts at 9."
+  // expected output: "Found foo. Next starts at 19."
+}
+    
+    
+    
+   // var parser = new DOMParser();
+   // var htmlDoc = parser.parseFromString(string, 'text/html');
    // do whatever you want with htmlDoc.getElementsByTagName('a');
    // array=htmlDoc.getElementsByTagName('a');
    //array=htmlDoc.getElementsByClassName('display-name')[3].textContent='120192301.log';
@@ -89,8 +102,8 @@ function parseLogList(string) {
 //array.push(htmlDoc.getElementsByClassName('display-name')[1].innerText='20192301.log');
 //array.push(htmlDoc.getElementsByClassName('display-name')[2]);   
 
-array.push(htmlDoc.getElementsByClassName('display-name'));
-array.push(htmlDoc.links.innerHTML=='*.log');
+//array.push(htmlDoc.getElementsByClassName('display-name'));
+//array.push(htmlDoc.links.innerHTML=='*.log');
 /*
 for (const i = 0; i < array.length; i++) {
     //array[i].getElementsByTagName('a')==="*.log";
