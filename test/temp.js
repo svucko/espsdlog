@@ -75,7 +75,8 @@ function loadLogsList() {
 
 
 function parseLogList(string) {
-    var array = [];
+    //var array = [], array2=[];
+var array, array2=[];
     //var lines = string.split("\n");
     
     
@@ -83,12 +84,14 @@ function parseLogList(string) {
     
     while ((array = regex1.exec(string)) !== null) {
         //while ((array.push(regex1.exec(string))) !== null) {
-  console.log(`Found ${array[0]}. Next starts at ${regex1.lastIndex}.`);
+  //console.log(`Found ${array[0]}. Next starts at ${regex1.lastIndex}.`);
+  console.log(`${array[0]}`);
+  array2.push(`${array[0]}`);
   // expected output: "Found foo. Next starts at 9."
   // expected output: "Found foo. Next starts at 19."
 }
     
-    
+    console.log(array2);
     
    // var parser = new DOMParser();
    // var htmlDoc = parser.parseFromString(string, 'text/html');
