@@ -63,7 +63,7 @@ function loadLogsList() {
             logListArray = parseLogList(this.responseText);
             //google.charts.load('current', { 'packages': ['line', 'corechart'] });
             //google.charts.setOnLoadCallback(updateViewport);
-            console.log("Parse");
+            //console.log("Parse");
             console.log(logListArray);
         }
     };
@@ -75,52 +75,22 @@ function loadLogsList() {
 
 
 function parseLogList(string) {
-    //var array = [], array2=[];
-var array, array2=[];
-    //var lines = string.split("\n");
-    
-    
-        var regex1 = new RegExp('[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9].log','g');
+    var array = [], array2=[];
+    var regex1 = new RegExp('([0-9]{8}).log','g');
     
     while ((array = regex1.exec(string)) !== null) {
-        //while ((array.push(regex1.exec(string))) !== null) {
-  //console.log(`Found ${array[0]}. Next starts at ${regex1.lastIndex}.`);
-  console.log(`${array[0]}`);
-  array2.push(`${array[0]}`);
-  // expected output: "Found foo. Next starts at 9."
-  // expected output: "Found foo. Next starts at 19."
-}
-    
-    console.log(array2);
-    
-   // var parser = new DOMParser();
-   // var htmlDoc = parser.parseFromString(string, 'text/html');
-   // do whatever you want with htmlDoc.getElementsByTagName('a');
-   // array=htmlDoc.getElementsByTagName('a');
-   //array=htmlDoc.getElementsByClassName('display-name')[3].textContent='120192301.log';
-//   array=htmlDoc.getElementsByClassName('display-name')[0];
-//array.push=htmlDoc.getElementsByClassName('display-name')[1];
-//array.push=htmlDoc.getElementsByClassName('display-name')[2];
-//array.push=htmlDoc.getElementsByClassName('display-name')[3];
-//array.push(htmlDoc.getElementsByClassName('display-name')[1].innerText='20192301.log');
-//array.push(htmlDoc.getElementsByClassName('display-name')[2]);   
-
-//array.push(htmlDoc.getElementsByClassName('display-name'));
-//array.push(htmlDoc.links.innerHTML=='*.log');
-/*
-for (const i = 0; i < array.length; i++) {
-    //array[i].getElementsByTagName('a')==="*.log";
-    console.log(array[i]);
-}
-*/
-   /*
-    for (var i = 0; i < lines.length; i++) {
-        var data = lines[i].split(",", 2);
-        data[0] = new Date(parseInt(data[0]) * 1000);
-        data[1] = parseFloat(data[1]);
-        array.push(data);
+    array2.push(array[0]);
     }
-    */
+   
+    var sorted_arr = array2.slice().sort(); 
+    array = [];
+    for (var i = 0; i < sorted_arr.length - 1; i++) {
+        if (sorted_arr[i + 1] == sorted_arr[i]) {
+            array.push(sorted_arr[i]);
+        }
+    }
+
+    //console.log(array);
     return array;
 }
 
