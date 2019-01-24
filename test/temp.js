@@ -14,6 +14,10 @@ loadCSV(); // Download the CSV data, load Google Charts, parse the data, and dra
 
 loadLogsList();
 
+
+var lastLog;
+//downloadLastLog();
+
 /*
 Structure:
 
@@ -54,6 +58,34 @@ function loadCSV() {
     loadingdiv.style.visibility = "visible";
 }
 
+function downloadLastLog(){
+    
+    
+    console.log("last log file=" + logListArray[logListArray.length - 1]);
+
+   if (logListArray[logListArray.length - 1]!=null){
+       
+       var xmlhttp = new XMLHttpRequest();
+       xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log("ready");
+            lastLog=this.responseText;
+            console.log(lastLog);
+            
+            //dataArray = parseCSV(this.responseText);
+            //google.charts.load('current', { 'packages': ['line', 'corechart'] });
+            //google.charts.setOnLoadCallback(updateViewport);
+        }
+    };
+    xmlhttp.open("GET", "/logs/"+logListArray[logListArray.length - 1], true);
+    xmlhttp.send();
+    //var loadingdiv = document.getElementById("loading");
+    //loadingdiv.style.visibility = "visible";
+       
+   }
+
+
+}
 
 function loadLogsList() {
     console.log("loading logs start");
@@ -65,7 +97,9 @@ function loadLogsList() {
             //google.charts.setOnLoadCallback(updateViewport);
             //console.log("Parse");
             console.log(logListArray);
+            downloadLastLog();
         }
+        
     };
     xmlhttp.open("GET", "/logs/", true);
     xmlhttp.send();
