@@ -18,6 +18,15 @@ loadLogsList();
 var lastLog;
 //downloadLastLog();
 
+
+    <!-- Dynamic create calendar -->
+    // Get the element
+    var element = document.getElementById("my-calendar");
+    // Create the calendar
+    jsCalendar.new(element,"now");
+
+
+
 /*
 Structure:
 
