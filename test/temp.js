@@ -2,7 +2,7 @@ var dataArray = [];
 
 var logListArray = [];
 
-var defaultZoomTime = 24*60*60*1000; // 1 day
+var defaultZoomTime = 24 * 60 * 60 * 1000; // 1 day
 var minZoom = -6; // 22 minutes 30 seconds
 var maxZoom = 8; // ~ 8.4 months
 
@@ -19,11 +19,18 @@ var lastLog;
 //downloadLastLog();
 
 
-    <!-- Dynamic create calendar -->
+     <!-- Dynamic create calendar -->
     // Get the element
     var element = document.getElementById("my-calendar");
+
     // Create the calendar
-    jsCalendar.new(element,"now");
+    //jsCalendar.new(element,"01-01-2019");
+
+//if(lastLog!==null){
+    
+  //  console.log(lastLog.substring(0,8));
+//}    
+jsCalendar.new(element);
 
 
 
@@ -252,7 +259,7 @@ function updateViewport() {
     drawChart();
 }
 function getViewportWidthTime() {
-    return defaultZoomTime*(2**zoomLevel); // exponential relation between zoom level and zoom time span
+    return defaultZoomTime * (2*zoomLevel); // exponential relation between zoom level and zoom time span
                                            // every time you zoom, you double or halve the time scale
 }
 
